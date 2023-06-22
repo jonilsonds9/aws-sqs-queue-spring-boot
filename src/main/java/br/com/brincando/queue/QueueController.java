@@ -1,5 +1,6 @@
 package br.com.brincando.queue;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +29,6 @@ public class QueueController {
     @GetMapping("/consumer")
     public ResponseEntity<String> consumer(@RequestBody QueueMessage message) {
         QueueResult result = this.queueConsumerService.consumer(message);
-        System.out.println(result);
         return ResponseEntity.status(result.getStatus()).build();
     }
 }

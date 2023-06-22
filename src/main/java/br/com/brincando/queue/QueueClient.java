@@ -7,6 +7,9 @@ import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sqs.SqsClient;
 import software.amazon.awssdk.services.sqs.model.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class QueueClient {
 
@@ -19,8 +22,8 @@ public class QueueClient {
         this.credentialsProvider = queueAwsCredentialsProvider;
     }
 
-    public void sendMessage(QueueMessage queueMessage) {
-        SendMessageRequest sendMessageRequest = this.generateSendMessageRequest(queueMessage);
+    public void sendMessage(QueueMessage queueMessage, String consumerUrl) {
+        SendMessageRequest sendMessageRequest = this.generateSendMessageRequest(queueMessage, consumerUrl);
 
         try (SqsClient sqsClient = getSqsClient()) {
             sqsClient.sendMessage(sendMessageRequest);
@@ -38,10 +41,16 @@ public class QueueClient {
                 .build();
     }
 
-    private SendMessageRequest generateSendMessageRequest(QueueMessage queueMessage) {
+    private SendMessageRequest generateSendMessageRequest(QueueMessage queueMessage, String consumerUrl) {
+        MessageAttributeValue consumeUrlAttributeValue = MessageAttributeValue.builder()
+                .stringValue(consumerUrl)
+                .dataType("String")
+                .build();
+
         return SendMessageRequest.builder()
                 .queueUrl(queueMessage.getQueueUrl())
                 .messageBody(queueMessage.toJson())
+                .messageAttributes(Map.of("consumerUrl", consumeUrlAttributeValue))
                 .build();
     }
 }

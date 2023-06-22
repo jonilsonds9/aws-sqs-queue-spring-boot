@@ -16,7 +16,7 @@ public class QueueSenderService {
     }
 
     public void send(String message) {
-        QueueMessage queueMessage = new QueueMessage(message, Queue.QUEUE_TEST, this.consumerUrl);
-        this.queueClient.sendMessage(queueMessage);
+        QueueMessage queueMessage = new QueueMessage(message, Queue.QUEUE_TEST);
+        this.queueClient.sendMessage(queueMessage, this.consumerUrl);
     }
 }

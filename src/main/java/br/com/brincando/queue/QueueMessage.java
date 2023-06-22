@@ -11,13 +11,11 @@ public class QueueMessage implements Serializable {
     private final Queue queue;
     private final UUID uuid;
     private final String body;
-    private final String consumerUrl;
 
-    public QueueMessage(String mensagem, Queue queue, String consumerUrl) {
+    public QueueMessage(String mensagem, Queue queue) {
         this.queue = queue;
         this.uuid = UUID.randomUUID();
         this.body = "Mensagem: %s - UUID: %s".formatted(mensagem, this.uuid);
-        this.consumerUrl = consumerUrl;
     }
 
     public Queue getQueue() {
@@ -30,10 +28,6 @@ public class QueueMessage implements Serializable {
 
     public String getBody() {
         return body;
-    }
-
-    public String getConsumerUrl() {
-        return consumerUrl;
     }
 
     public String toJson() {
