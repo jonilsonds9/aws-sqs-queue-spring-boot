@@ -19,10 +19,10 @@ public class QueueController {
         return ResponseEntity.ok("Home");
     }
 
-    @GetMapping("/send")
-    public ResponseEntity<String> send() {
-        this.queueSenderService.send();
-        return ResponseEntity.ok("enviado");
+    @GetMapping("/send/{message}")
+    public ResponseEntity<String> send(@PathVariable String message) {
+        this.queueSenderService.send(message);
+        return ResponseEntity.ok("Mensagem enviada!");
     }
 
     @GetMapping("/consumer")
