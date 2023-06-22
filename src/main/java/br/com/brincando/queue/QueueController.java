@@ -26,7 +26,7 @@ public class QueueController {
         return ResponseEntity.ok("Mensagem enviada!");
     }
 
-    @GetMapping("/consumer")
+    @PostMapping("/consumer")
     public ResponseEntity<String> consumer(@RequestBody QueueMessage message) {
         QueueResult result = this.queueConsumerService.consumer(message);
         return ResponseEntity.status(result.getStatus()).build();
